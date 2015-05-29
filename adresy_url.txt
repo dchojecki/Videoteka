@@ -1,0 +1,2 @@
+https://git-scm.com/book/pl/v1/Git-na-serwerze-Hosting-Gita - zak³adnie konta w gitHUB
+http://forum.pclab.pl/topic/762263-Java-EE-Prosta-implementacja-mechanizmu-logowania/ - tworzenie vidoteki
