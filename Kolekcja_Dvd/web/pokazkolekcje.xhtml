@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./szablonAplikacji.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <ui:define name="content">
+        <h1>Kolekcja płyt</h1>
+        <h:form>
+            <table> <tr><th>Edytuj</th><th>Usun</th><th>Tytuł<
+                        /th><th>Opis</th><th>Gatunek</th><th>Rok</th></tr>
+                <ui:repeat value="#{Zarzadanie.lista}" var="kolekcja">
+                    <tr>
+                        <td>
+                            <h:commandLink value="Edytuj"
+                                           action="#{Zarzadanie.zaladujDoEdycji}"
+                                           actionListener="#{Zarzadanie.DvdListener}">
+                                <f:param name="kolekcjaID"
+                                         value="#{kolekcja.id}" />
+                            </h:commandLink>
+                        </td>
+                        <td>
+                            <h:commandLink value="Usun"
+                                           action="#{Zarzadanie.usun}"
+                                           actionListener="#{Zarzadanie.DvdListener}">
+                                <f:param name="kolekcjaID"
+                                         value="#{kolekcja.id}" />
+                            </h:commandLink>
+                        </td>
+                        <td>#{kolekcja.tytul}</td>
+                        <td>#{kolekcja.opis}</td>
+                        <td>#{kolekcja.gatunek}</td>
+                        <td>#{kolekcja.rok}</td>
+                    </tr>
+                </ui:repeat>
+            </table>
+        </h:form>
+    </ui:define>
+</ui:composition>

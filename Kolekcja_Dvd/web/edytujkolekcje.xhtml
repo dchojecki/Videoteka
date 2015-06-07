@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="./szablonAplikacji.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml">
+    <ui:define name="content">
+        <h:form>
+            <table>
+                <tr><td>Tytuł</td><td><h:inputText id="tytul"
+                                                   value="#{Zarzadanie.zarzadanie.tytul}" required="true"
+                                                   /></td></tr>
+                <tr><td>Adres</td><td><h:inputText id="opis"
+                                                   value="#{Zarzadanie.zarzadanie.opis}" required="true"
+                                                   /></td></tr>
+                <tr><td>Kontakt</td><td><h:inputText id="gatunek"
+                                                     value="#{Zarzadanie.zarzadanie.gatunek}" required="true"
+                                                     /></td></tr>
+                <tr><td>Opis</td><td><h:inputTextarea id="rok"
+                                                      value="#{Zarzadanie.zarzadanie.rok}" required="true"
+                                                      /></td></tr>
+                <tr><td></td><td><h:commandButton
+                            action="#{Zarzadanie.edytuj}" value="Edytuj" /></td></tr>
+            </table>
+        </h:form>
+    </ui:define>
+</ui:composition>
+Ebookpoint.pl
