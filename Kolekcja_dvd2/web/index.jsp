@@ -41,7 +41,7 @@
                 <ul id="ul">
                     <li>
                         <form name="wypozycz" action="wypozycz" method="POST"> 
-                            <input type="submit" value="Wypożycz płytę" name="wypozycz" class="button.css3button"/>
+                            <input type="submit" value="Wypożycz płytę" name="wypozycz" />
                         </form>
                     </li>
                     <li>
@@ -122,9 +122,9 @@
             </div>
 
             <div id="STOPKA">
-                <p>Jesteś zalogowany jako: <%=session.getAttribute("Login")%></p>
+                <p>Jesteś zalogowany jako: <%=session.getAttribute("Login")%> &nbsp;&nbsp;
 
-                <a href = "login.jsp"> Wyloguj </a>
+                    <a href = "login.jsp"> (Wyloguj) </a></p>
 
 
             </div>

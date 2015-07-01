@@ -8,10 +8,12 @@ package pl.damian_sebastian.zaliczenie;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.ProcessBuilder.Redirect;
+import static java.lang.System.out;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.servlet.RequestDispatcher;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,12 +24,14 @@ import javax.servlet.http.HttpSession;
 @SuppressWarnings("serial")
 public class login extends HttpServlet {
 
+    int uprawnienie = 0;
+    String logowanie = "0";
+
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         res.setCharacterEncoding("UTF-8");
         req.setCharacterEncoding("UTF-8");
         res.setContentType("text/html");
         PrintWriter out = res.getWriter();
-        int logowanie = 0;
 
         try {
 
@@ -40,58 +44,40 @@ public class login extends HttpServlet {
 
             String strLogin = req.getParameter("Login");
             String strHaslo = req.getParameter("Haslo");
-            int uprawnienie;
+
             HttpSession session = req.getSession();
+
             while (rs.next()) {
                 uprawnienie = rs.getInt(6);
                 if (strLogin.equals(rs.getString(2)) && strHaslo.equals(rs.getString(3))) {
-                    if (uprawnienie == 1) {
-                        /* out.println("<center><BR>");
-                         out.println("<h1>Witaj "+rs.getString(4)+"  "+rs.getString(5));
-                         out.println("<BR>Jesteś zalogowany jako administrator</h><BR>");
-                   
-                         logowanie=1;
-                         out.println("<br><form action=\"menua.jsp\" method=\"POST\">\n" +
-                         "<input type=\"submit\" value=\"Przejdz do menu administratora\"/>\n" +
-                         " </form></center>");
-                         //getServletContext().getRequestDispatcher("/menua.jsp") .forward(req,res);
-                         */
 
-                        session.setAttribute("Login", req.getParameter("Login"));
+                    //logowanie = 1;
+                    
+                    session.setAttribute("Login", req.getParameter("Login"));
                         res.sendRedirect("index.jsp");
 
-                    } else {
-                        /*
-                         out.println("<center><BR>");
-                         out.println("<h1>Witaj " + rs.getString(4) + " " + rs.getString(5));
-                         out.println("<BR>Poziom dostępu - uzytkownik</h><BR>");
-                         logowanie = 1;
-                         out.println("<br><form action=\"menu.jsp\" method=\"POST\">\n"
-                         + "<input type=\"submit\" value=\"Przejdz do menu\"/>\n"
-                         + " </form></center>");
-
-                         */
-                        session.setAttribute("Login", req.getParameter("Login"));
-                        res.sendRedirect("index.jsp");
-
-                    }
+                } else {
+                    //http://forum.4programmers.net/Java/191696-servlet_przekazywnanie_parametrow_do_jsp
+                    
+                    req.setAttribute("zle_haslo", logowanie);
+                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+                     dispatcher.forward(req, res);
                 }
-
             }
-            out.println("</table>");
 
             rs.close();
             stmt.close();
             con.close();
+
         } catch (Exception e) {
             out.println(e);
         }
-        if (logowanie == 0) {
-            out.println("<BR>");
-            out.println("<h1><center>Logowanie nieudane<br>Zły login lub hasło </h1></center>");
-
-        }
 
         out.close();
+    }
+
+    public int sprUprawnienie() {
+
+        return uprawnienie;
     }
 }

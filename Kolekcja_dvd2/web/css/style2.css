@@ -49,6 +49,36 @@ td,th,tr
        
 }
 
+a:link {
+
+color: white
+
+}
+
+
+
+a:visited {
+
+color:white
+
+}
+
+
+
+a:hover {
+
+color:white
+
+}
+
+
+
+a:active {
+
+color:white
+
+}
+
 #top {
     //background-image: url('loginn.jpg') ; 
     //background-repeat:no-repeat;
@@ -80,7 +110,7 @@ td,th,tr
 }
 
 #MENU {
-    width: 200px;
+    width: 220px;
     float: left;
     overflow: hidden;
     //background-color: #ccc;
@@ -102,7 +132,7 @@ td,th,tr
 
 #STOPKA {
     clear: both;
-    width: 250px;
+    width: 400px;
     //background-color: #888;
 }
 
@@ -113,8 +143,8 @@ td,th,tr
     list-style: none;
     margin: 0;
     padding: 0px;
-    margin-top:20px;
-    width: 210px
+    //margin-top:20px;
+    width: 220px
     //width: 200px
 }
 
@@ -126,10 +156,10 @@ td,th,tr
 
 input[type=submit]{
     background: #ffffff;
-    width: 200px;
+    width: 210px;
 }
 
 input[type=submit]:hover {
     background: #f44c0e;
-    width: 200px;
+    width: 210px;
 }
