@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.damian_sebastian.zaliczenie;
 
 import java.io.IOException;
@@ -14,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +20,10 @@ import javax.servlet.http.HttpSession;
 @SuppressWarnings("serial")
 public class login extends HttpServlet {
 
-    int uprawnienie = 0;
-    String logowanie = "0";
+    String logowanie;
+    String user = null;
+    String pass = null;
+    Connection con = null;
 
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         res.setCharacterEncoding("UTF-8");
@@ -34,37 +32,46 @@ public class login extends HttpServlet {
         PrintWriter out = res.getWriter();
 
         try {
-
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dvd", "root", "");
 
-            Statement stmt = (Statement) con.createStatement();
+            user = req.getParameter("Login");
+            pass = req.getParameter("Haslo");
+            String q = "SELECT * FROM uzytkownik where login='" + user + "' and haslo='" + pass + "'";
 
-            ResultSet rs = stmt.executeQuery("SELECT * FROM uzytkownik");
+            HttpSession session = req.getSession(false);
 
-            String strLogin = req.getParameter("Login");
-            String strHaslo = req.getParameter("Haslo");
-
-            HttpSession session = req.getSession();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(q);
+            String username = null;
+            String password = null;
+            
+            ServletContext context=getServletContext(); 
 
             while (rs.next()) {
-                uprawnienie = rs.getInt(6);
-                if (strLogin.equals(rs.getString(2)) && strHaslo.equals(rs.getString(3))) {
+                username = rs.getString(2);
+                password = rs.getString(3);
 
-                    //logowanie = 1;
-                    
-                    session.setAttribute("Login", req.getParameter("Login"));
-                        res.sendRedirect("index.jsp");
+                System.out.println(user + " " + pass);
+                if (username.equals(user) && password.equals(pass)) {
+                    req.getSession(true);
+                    System.out.println("Zalogowano prawidłowo");
+                    session.setAttribute("Login", user);
+                    session.setAttribute("upr", Integer.toString(rs.getInt(6)));
+                    RequestDispatcher dis = req.getRequestDispatcher("/index.jsp");
+                    dis.forward(req, res);
+                    System.out.println("Sprawdzanie indeksu uprawnienia ktory wynosi dla "+user+" "+rs.getInt(6));
 
-                } else {
-                    //http://forum.4programmers.net/Java/191696-servlet_przekazywnanie_parametrow_do_jsp
-                    
-                    req.setAttribute("zle_haslo", logowanie);
-                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
-                     dispatcher.forward(req, res);
-                }
+                } 
             }
+            System.out.println("Zalogowano nie prawidłowo");
+            //session.invalidate();
+            req.setAttribute("errorMessage", "Podałeś nieprawidłowy login lub hasło");
+            RequestDispatcher rd = req.getRequestDispatcher("/login.jsp");
+            rd.forward(req, res);
+            
 
+            out.println("Weszłeś do aplikacji");
             rs.close();
             stmt.close();
             con.close();
@@ -76,8 +83,4 @@ public class login extends HttpServlet {
         out.close();
     }
 
-    public int sprUprawnienie() {
-
-        return uprawnienie;
-    }
 }

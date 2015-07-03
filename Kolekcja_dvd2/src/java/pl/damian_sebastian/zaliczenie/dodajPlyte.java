@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "dodajPlyte", urlPatterns = {"/dodajPlyte"})
 public class dodajPlyte extends HttpServlet {
-
+    
+    String tytul="";
+    
     public void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         res.setCharacterEncoding("UTF-8");
         req.setCharacterEncoding("UTF-8");
@@ -31,11 +34,7 @@ public class dodajPlyte extends HttpServlet {
         String strGatunek = req.getParameter("gatunek");
         String strRok = req.getParameter("rok");
 
-        out.println("<center><h1> Dodaje płytę</h1><h2> <br>");
-        out.println("Tytuł - " + strTytul + "<br>Opis  -" + strOpis + "<br>" + "Gatunek -" + strGatunek + "<br> Rok -" + strRok);
-
-        out.println("</h2>");
-
+       
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dvd", "root", "");
@@ -45,17 +44,14 @@ public class dodajPlyte extends HttpServlet {
             String wyslij = "INSERT INTO kolekcja (tytul,opis,gatunek,rok,dostepnosc)VALUES ('" + strTytul + "','" + strOpis + "','" + strGatunek + "','" + strRok + "','1')";
 
             stmt.executeUpdate(wyslij);
+            
+            req.setAttribute("dodaj_tytul", strTytul);
+                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dodajplyte.jsp");
+                     dispatcher.forward(req, res);
         } catch (Exception e) {
             out.println(e);
         }
 
-        out.println("<form action=\"menu.jsp\" method=\"POST\">\n"
-                + "<input type=\"submit\" value=\"Powrót do Menu\"/>\n"
-                + " </form>");
-        out.println("<form action=\"dodajsamochod.jsp\" method=\"POST\">\n"
-                + "<input type=\"submit\" value=\"Dodaj następną płytę\"/>\n"
-                + " </form>");
-        out.println("</center>");
-        out.close();
+        
     }
 }

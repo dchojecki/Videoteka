@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.damian_sebastian.zaliczenie;
 
 import java.io.IOException;
@@ -10,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,15 +43,18 @@ public class dodajKlienta extends HttpServlet {
             String wyslij = "INSERT INTO klient (imie, nazwisko, adres, telefon)VALUES ('" + strKimie + "','" + strKnazwisko + "','" + strAdres + "','" + strTelefon + "')";
  
             stmt.executeUpdate(wyslij);
+            
+            req.setAttribute("dodaj_klienta", strKimie+" "+strKnazwisko);
+                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/dodajklienta.jsp");
+                     dispatcher.forward(req, res);
+            
             }
             catch(Exception e)
             {
             out.println(e);
             }
      
-      out.println("<form action=\"menu.jsp\" method=\"POST\">\n" +
-"<input type=\"submit\" value=\"Powrót do Menu\"/>\n" +
-" </form>");
+     
       out.println("<form action=\"dodajklienta.jsp\" method=\"POST\">\n" +
 "<input type=\"submit\" value=\"Dodaj następnego klienta\"/>\n" +
 " </form>");

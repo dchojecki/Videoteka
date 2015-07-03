@@ -11,11 +11,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import static javax.swing.text.html.CSS.getAttribute;
 
 @WebServlet(name = "wypozycz", urlPatterns = {"/wypozycz"})
@@ -27,7 +29,11 @@ public class wypozycz extends HttpServlet {
         req.setCharacterEncoding("UTF-8"); //ustawienia kodowania
         res.setContentType("text/html");
         PrintWriter out = res.getWriter();
-
+        
+        HttpSession session = req.getSession();
+        
+        String userName=(String)session.getAttribute("Login");
+        
         try {
 
             Class.forName("com.mysql.jdbc.Driver");
@@ -132,23 +138,45 @@ public class wypozycz extends HttpServlet {
                             out.println("<input type=\"submit\" value=\"  Dodaj nowego użytkownika   \" name=\"dodajuzytkownika\" />");
                         out.println("</form>");
                     out.println("</li>");
-                    out.println("<li>");
-                        out.println("<form name=\"Menu\" action=\"menu.jsp\" method=\"POST\">");
-                            out.println("<input type=\"submit\" value=\"  Przejdź do menu użytkownika   \" name=\"menu\" />");
-                        out.println("</form>");
-                    out.println("</li>");
+                    
                 out.println("</ul>");
 
             out.println("</div>");
 
             out.println("<div id=\"TRESC\">");
 
+                out.println("<center>");
 
+                    out.println("<table>");
+
+                        out.println("<tr>"
+                           + "<th><h2>Dane klienta </h2></th>"
+                            + "<th><h2> Dane płyty DVD </h2></th>"
+                     + "</tr>");
+                         out.println("<tr>"
+                            + "<td><br><center><form  name = \"wypoĹĽycz\" action = \"wypozyczsql\" method=\"POST\">");
+                                out.println("<select name=\"klient\">");
+
+                                 while (rs.next()) {
+                                     out.println("<option value=" + rs.getString(1) + ">" + rs.getString(2) + " " + rs.getString(3) + " --> " + rs.getString(4) + "</option> ");
+                                 }
+                                    out.println(" </select></center></td> ");
+                        out.println("<td><center><select name=\"plyta\">");
+
+                                while (rs2.next()) {
+                                     out.println("<option value=" + rs2.getString(1) + ">" + rs2.getString(2) + " " + rs2.getString(4) + " --> " + rs2.getString(5) + "</option> ");
+                                }
+                                     out.println(" </select> </center></td> </tr>");
+              out.println("</table>");
+
+              out.println("<br><input type=\"submit\" value=\"Wypożycz\"/></form></center>");
+
+                    out.println("</center>");
 
             out.println("</div>");
 
             out.println("<div id=\"STOPKA\">");
-                out.println("<p>Jesteś zalogowany jako: "+req.getAttribute("Login") + "&nbsp;&nbsp;");
+                out.println("<p>Jesteś zalogowany jako: "+userName+" &nbsp;&nbsp;<br>");
 
                     out.println("<a href = \"login.jsp\"> (Wyloguj) </a></p>");
                         

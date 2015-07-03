@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.*"%>
+<%@page import="pl.damian_sebastian.zaliczenie.*"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -106,11 +108,7 @@
                             <input type="submit" value="  Dodaj nowego użytkownika   " name="dodajuzytkownika" />
                         </form>
                     </li>
-                    <li>
-                        <form name="Menu" action="menu.jsp" method="POST"> 
-                            <input type="submit" value="  Przejdź do menu użytkownika   " name="menu" />
-                        </form>
-                    </li>
+                    
                 </ul>
 
             </div>
@@ -122,9 +120,21 @@
             </div>
 
             <div id="STOPKA">
-                <p>Jesteś zalogowany jako: <%=session.getAttribute("Login")%> &nbsp;&nbsp;
-
-                    <a href = "login.jsp"> (Wyloguj) </a></p>
+                <p>Jesteś zalogowany jako: 
+                    <%=session.getAttribute("Login")%> &nbsp;<br>
+                    
+                    <%
+                    String uprawnienie="";
+                        
+                        uprawnienie=(String)request.getAttribute("upr");
+                                        out.println(uprawnienie);        
+                        if(uprawnienie=="1"){
+                            out.println("(Administrator)");
+                        }
+                    %>
+                    
+                    <a href = "logout.jsp"> (Wyloguj) </a></p>
+                  
 
 
             </div>

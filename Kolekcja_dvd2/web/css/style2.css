@@ -13,7 +13,7 @@ html, body {
     //background-repeat:no-repeat;
     background-size: cover;
     //background-color: #fff;
-    color: #000;
+    color: white;
     margin: 0;
     padding: 0;
     text-align: center;
@@ -34,11 +34,12 @@ table
     //border: 2px;
     //border-color: white;
     //border-style: solid;
-    table-layout: fixed; width: 100%
+    table-layout: fixed; width: 95%;
+    text-align: center;
 
 }
 
-td,th,tr
+td2,th,tr
 {
     //border: 2px;
     //border-color: white;
@@ -46,12 +47,12 @@ td,th,tr
     //vertical-align: middle;
     //vertical-align: central;
     //padding: 20px
-       
+
 }
 
 a:link {
 
-color: white
+    color: white
 
 }
 
@@ -59,7 +60,7 @@ color: white
 
 a:visited {
 
-color:white
+    color:white
 
 }
 
@@ -67,7 +68,7 @@ color:white
 
 a:hover {
 
-color:white
+    color:white
 
 }
 
@@ -75,7 +76,7 @@ color:white
 
 a:active {
 
-color:white
+    color:white
 
 }
 
@@ -124,8 +125,9 @@ color:white
 }
 
 #TRESC {
-    width: 1045px;
+    width: 930px;
     float: left;
+    margin-left: 50px;
     overflow: hidden;
     //background-color: #fff;
 }
@@ -144,8 +146,8 @@ color:white
     margin: 0;
     padding: 0px;
     //margin-top:20px;
-    width: 220px
-    //width: 200px
+    width: 200px
+
 }
 
 #ul {
@@ -154,12 +156,14 @@ color:white
 }
 
 
-input[type=submit]{
+input{
     background: #ffffff;
-    width: 210px;
+    width: auto;
+    //width: 190px;
 }
 
-input[type=submit]:hover {
+input:hover {
     background: #f44c0e;
-    width: 210px;
+    width: auto;
+    //width: 190px;
 }
